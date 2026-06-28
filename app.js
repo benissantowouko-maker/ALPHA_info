@@ -96,9 +96,38 @@ function initNavigation() {
 
   sections.forEach((s) => observer.observe(s));
 
-  // Hamburger
-  hamburger.addEventListener("click", () => {
+  // Hamburger toggle
+  hamburger.addEventListener("click", (e) => {
+    e.stopPropagation();
     navLinks.classList.toggle("mobile-open");
+    // Animate hamburger to X
+    const spans = hamburger.querySelectorAll("span");
+    const isOpen = navLinks.classList.contains("mobile-open");
+    spans[0].style.transform = isOpen ? "translateY(7px) rotate(45deg)" : "";
+    spans[1].style.opacity = isOpen ? "0" : "";
+    spans[2].style.transform = isOpen ? "translateY(-7px) rotate(-45deg)" : "";
+  });
+
+  // Close menu on nav link click
+  document.querySelectorAll(".nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("mobile-open");
+      const spans = hamburger.querySelectorAll("span");
+      spans[0].style.transform = "";
+      spans[1].style.opacity = "";
+      spans[2].style.transform = "";
+    });
+  });
+
+  // Close menu on outside click
+  document.addEventListener("click", (e) => {
+    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+      navLinks.classList.remove("mobile-open");
+      const spans = hamburger.querySelectorAll("span");
+      spans[0].style.transform = "";
+      spans[1].style.opacity = "";
+      spans[2].style.transform = "";
+    }
   });
 
   // Connect modal
