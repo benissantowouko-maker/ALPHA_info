@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AlphaTrader — Plateforme de trading algorithmique et d'analyse de marché professionnelle. Signaux en temps réel, portefeuille optimisé, intelligence de marché." />
+  <title>AlphaTrader | Trading Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 30 L13 18 L20 24 L28 10 L35 16" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="5" y1="30" x2="35" y2="10" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#00d4ff"/>
+                <stop offset="100%" stop-color="#00ff9d"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Alpha<span class="logo-accent">Trader</span></span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+        <li><a href="#markets" class="nav-link">Marchés</a></li>
+        <li><a href="#signals" class="nav-link">Signaux</a></li>
+        <li><a href="#portfolio" class="nav-link">Portefeuille</a></li>
+        <li><a href="#algo" class="nav-link">Algo Trading</a></li>
+        <li><a href="#academy" class="nav-link">Académie</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="market-status">
+          <span class="status-dot pulse"></span>
+          <span class="status-text">Marché Ouvert</span>
+        </div>
+        <button class="btn-primary" id="connectBtn">Se connecter</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== TICKER TAPE ===================== -->
+  <div class="ticker-wrapper">
+    <div class="ticker-tape" id="tickerTape">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="dashboard">
+    <div class="hero-particles" id="heroParticles"></div>
+    <div class="hero-grid-lines"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Intelligence Algorithmique v3.0
+      </div>
+      <h1 class="hero-title">
+        Dominez les <span class="gradient-text">marchés financiers</span><br/>
+        avec précision absolue
+      </h1>
+      <p class="hero-subtitle">
+        Signaux en temps réel · Analyse quantitative · IA prédictive · Gestion de risque avancée.<br/>
+        La plateforme des traders professionnels qui veulent une longueur d'avance.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-hero-primary" id="startBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/></svg>
+          Commencer gratuitement
+        </button>
+        <button class="btn-hero-secondary" id="demoBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M10 8l6 4-6 4V8z" fill="currentColor"/></svg>
+          Voir la démo
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="stat-value counter" data-target="94.7">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">Précision signaux</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-value counter" data-target="2847">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Traders actifs</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-prefix">+</span><span class="stat-value counter" data-target="312">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">ROI moyen / an</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-value counter" data-target="24">0</span><span class="stat-suffix">/7</span>
+          <span class="stat-label">Surveillance IA</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="dashboard-preview">
+        <div class="preview-header">
+          <div class="preview-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="preview-title">AlphaTrader Dashboard</span>
+        </div>
+        <div class="preview-body">
+          <div class="mini-chart-area">
+            <canvas id="heroChart" width="480" height="200"></canvas>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat green">
+              <span class="ms-label">BTC/USD</span>
+              <span class="ms-value">$67,420</span>
+              <span class="ms-change">▲ +3.24%</span>
+            </div>
+            <div class="mini-stat red">
+              <span class="ms-label">ETH/USD</span>
+              <span class="ms-value">$3,891</span>
+              <span class="ms-change">▼ -1.07%</span>
+            </div>
+            <div class="mini-stat green">
+              <span class="ms-label">SPY</span>
+              <span class="ms-value">$524.80</span>
+              <span class="ms-change">▲ +0.82%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LIVE DASHBOARD ===================== -->
+  <section class="section" id="markets">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-badge">📊 Marchés en Direct</div>
+        <h2 class="section-title">Surveillance <span class="gradient-text">temps réel</span></h2>
+        <p class="section-subtitle">Tous les marchés globaux dans une vue unifiée. Mise à jour automatique toutes les secondes.</p>
+      </div>
+
+      <!-- Market Cards Grid -->
+      <div class="market-cards-grid">
+        <div class="market-card" id="mc-btc">
+          <div class="mc-header">
+            <div class="mc-icon crypto">₿</div>
+            <div class="mc-info">
+              <span class="mc-name">Bitcoin</span>
+              <span class="mc-pair">BTC/USD</span>
+            </div>
+            <div class="mc-badge bullish">ACHAT</div>
+          </div>
+          <div class="mc-price" id="btc-price">$67,420.50</div>
+          <div class="mc-change positive" id="btc-change">▲ +3.24% (+$2,117)</div>
+          <canvas class="mc-sparkline" id="spark-btc" width="200" height="50"></canvas>
+          <div class="mc-footer">
+            <span>Vol: <strong>$28.4B</strong></span>
+            <span>Mkt Cap: <strong>$1.32T</strong></span>
+          </div>
+        </div>
+
+        <div class="market-card" id="mc-eth">
+          <div class="mc-header">
+            <div class="mc-icon crypto" style="background: linear-gradient(135deg,#627eea,#a29bfe)">Ξ</div>
+            <div class="mc-info">
+              <span class="mc-name">Ethereum</span>
+              <span class="mc-pair">ETH/USD</span>
+            </div>
+            <div class="mc-badge bearish">VENTE</div>
+          </div>
+          <div class="mc-price" id="eth-price">$3,891.20</div>
+          <div class="mc-change negative" id="eth-change">▼ -1.07% (-$42.30)</div>
+          <canvas class="mc-sparkline" id="spark-eth" width="200" height="50"></canvas>
+          <div class="mc-footer">
+            <span>Vol: <strong>$14.1B</strong></span>
+            <span>Mkt Cap: <strong>$468B</strong></span>
+          </div>
+        </div>
+
+        <div class="market-card" id="mc-spy">
+          <div class="mc-header">
+            <div class="mc-icon stock">📈</div>
+            <div class="mc-info">
+              <span class="mc-name">S&P 500 ETF</span>
+              <span class="mc-pair">SPY</span>
+            </div>
+            <div class="mc-badge bullish">ACHAT</div>
+          </div>
+          <div class="mc-price" id="spy-price">$524.80</div>
+          <div class="mc-change positive" id="spy-change">▲ +0.82% (+$4.26)</div>
+          <canvas class="mc-sparkline" id="spark-spy" width="200" height="50"></canvas>
+          <div class="mc-footer">
+            <span>Vol: <strong>$82.7M</strong></span>
+            <span>P/E: <strong>23.4</strong></span>
+          </div>
+        </div>
+
+        <div class="market-card" id="mc-gold">
+          <div class="mc-header">
+            <div class="mc-icon gold">Au</div>
+            <div class="mc-info">
+              <span class="mc-name">Or</span>
+              <span class="mc-pair">XAU/USD</span>
+            </div>
+            <div class="mc-badge neutral">NEUTRE</div>
+          </div>
+          <div class="mc-price" id="gold-price">$2,341.60</div>
+          <div class="mc-change positive" id="gold-change">▲ +0.15% (+$3.48)</div>
+          <canvas class="mc-sparkline" id="spark-gold" width="200" height="50"></canvas>
+          <div class="mc-footer">
+            <span>Résistance: <strong>$2,380</strong></span>
+            <span>Support: <strong>$2,290</strong></span>
+          </div>
+        </div>
+
+        <div class="market-card" id="mc-eur">
+          <div class="mc-header">
+            <div class="mc-icon forex">€/$</div>
+            <div class="mc-info">
+              <span class="mc-name">Euro/Dollar</span>
+              <span class="mc-pair">EUR/USD</span>
+            </div>
+            <div class="mc-badge bearish">VENTE</div>
+          </div>
+          <div class="mc-price" id="eur-price">1.0842</div>
+          <div class="mc-change negative" id="eur-change">▼ -0.23% (-0.0025)</div>
+          <canvas class="mc-sparkline" id="spark-eur" width="200" height="50"></canvas>
+          <div class="mc-footer">
+            <span>Spread: <strong>0.8 pip</strong></span>
+            <span>Vol 24h: <strong>$312B</strong></span>
+          </div>
+        </div>
+
+        <div class="market-card" id="mc-nvda">
+          <div class="mc-header">
+            <div class="mc-icon stock" style="background:linear-gradient(135deg,#76b900,#00ff88)">NV</div>
+            <div class="mc-info">
+              <span class="mc-name">NVIDIA Corp</span>
+              <span class="mc-pair">NVDA</span>
+            </div>
+            <div class="mc-badge bullish">ACHAT FORT</div>
+          </div>
+          <div class="mc-price" id="nvda-price">$875.40</div>
+          <div class="mc-change positive" id="nvda-change">▲ +5.73% (+$47.49)</div>
+          <canvas class="mc-sparkline" id="spark-nvda" width="200" height="50"></canvas>
+          <div class="mc-footer">
+            <span>Vol: <strong>$14.2M</strong></span>
+            <span>RSI: <strong>71.4</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Chart -->
+      <div class="main-chart-container">
+        <div class="chart-header">
+          <div class="chart-title-group">
+            <h3 class="chart-title" id="chartTitle">BTC/USD — Analyse Technique</h3>
+            <span class="chart-price" id="chartMainPrice">$67,420.50</span>
+            <span class="chart-change positive" id="chartMainChange">▲ +3.24%</span>
+          </div>
+          <div class="chart-controls">
+            <div class="timeframe-btns">
+              <button class="tf-btn" data-tf="1m">1m</button>
+              <button class="tf-btn" data-tf="5m">5m</button>
+              <button class="tf-btn" data-tf="15m">15m</button>
+              <button class="tf-btn active" data-tf="1h">1H</button>
+              <button class="tf-btn" data-tf="4h">4H</button>
+              <button class="tf-btn" data-tf="1d">1J</button>
+              <button class="tf-btn" data-tf="1w">1S</button>
+            </div>
+            <div class="indicator-btns">
+              <button class="ind-btn active" data-ind="ma">MA</button>
+              <button class="ind-btn active" data-ind="bb">BB</button>
+              <button class="ind-btn" data-ind="rsi">RSI</button>
+              <button class="ind-btn" data-ind="macd">MACD</button>
+            </div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="mainChart" width="900" height="320"></canvas>
+        </div>
+        <div class="chart-indicators-row">
+          <div class="indicator-card">
+            <span class="ind-label">RSI (14)</span>
+            <span class="ind-value" id="rsiVal">62.4</span>
+            <div class="ind-bar"><div class="ind-fill" style="width:62.4%; background: #00d4ff;"></div></div>
+            <span class="ind-signal neutral">Neutre</span>
+          </div>
+          <div class="indicator-card">
+            <span class="ind-label">MACD</span>
+            <span class="ind-value positive" id="macdVal">+245.8</span>
+            <div class="ind-bar"><div class="ind-fill" style="width:70%; background: #00ff9d;"></div></div>
+            <span class="ind-signal bullish">Haussier</span>
+          </div>
+          <div class="indicator-card">
+            <span class="ind-label">Bandes de Bollinger</span>
+            <span class="ind-value" id="bbVal">Position: 65%</span>
+            <div class="ind-bar"><div class="ind-fill" style="width:65%; background: #a855f7;"></div></div>
+            <span class="ind-signal neutral">Zone médiane</span>
+          </div>
+          <div class="indicator-card">
+            <span class="ind-label">Volume</span>
+            <span class="ind-value positive" id="volVal">+187% moy.</span>
+            <div class="ind-bar"><div class="ind-fill" style="width:87%; background: #f59e0b;"></div></div>
+            <span class="ind-signal bullish">Pression acheteuse</span>
+          </div>
+          <div class="indicator-card">
+            <span class="ind-label">Stochastique</span>
+            <span class="ind-value" id="stochVal">K:74 D:68</span>
+            <div class="ind-bar"><div class="ind-fill" style="width:74%; background: #ec4899;"></div></div>
+            <span class="ind-signal bullish">Signal croisé</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SIGNALS ===================== -->
+  <section class="section dark-section" id="signals">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-badge">⚡ Signaux IA</div>
+        <h2 class="section-title">Alertes de <span class="gradient-text">trading en direct</span></h2>
+        <p class="section-subtitle">Notre intelligence artificielle analyse 1000+ indicateurs en temps réel pour vous donner des opportunités précises.</p>
+      </div>
+
+      <div class="signals-layout">
+        <div class="signals-feed">
+          <div class="feed-header">
+            <span class="feed-title">Flux de signaux</span>
+            <span class="feed-count"><span id="signalCount">0</span> signaux aujourd'hui</span>
+          </div>
+          <div class="signals-list" id="signalsList">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <div class="signals-stats">
+          <div class="perf-card">
+            <h3 class="perf-title">Performance 30 jours</h3>
+            <canvas id="perfChart" width="300" height="220"></canvas>
+            <div class="perf-metrics">
+              <div class="perf-metric">
+                <span class="pm-label">Win Rate</span>
+                <span class="pm-value green">87.3%</span>
+              </div>
+              <div class="perf-metric">
+                <span class="pm-label">Profit Factor</span>
+                <span class="pm-value green">3.42</span>
+              </div>
+              <div class="perf-metric">
+                <span class="pm-label">Max Drawdown</span>
+                <span class="pm-value red">-4.1%</span>
+              </div>
+              <div class="perf-metric">
+                <span class="pm-label">Sharpe Ratio</span>
+                <span class="pm-value green">2.84</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="heatmap-card">
+            <h3 class="hm-title">Heatmap de marché</h3>
+            <div class="heatmap-grid" id="heatmapGrid">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PORTFOLIO ===================== -->
+  <section class="section" id="portfolio">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-badge">💼 Portefeuille</div>
+        <h2 class="section-title">Gestion <span class="gradient-text">intelligente</span> du capital</h2>
+        <p class="section-subtitle">Visualisez votre allocation, vos performances et optimisez votre ratio risque/rendement.</p>
+      </div>
+
+      <div class="portfolio-layout">
+        <div class="portfolio-overview">
+          <div class="port-total">
+            <div class="pt-label">Valeur Totale du Portefeuille</div>
+            <div class="pt-value">$247,832.50</div>
+            <div class="pt-change positive">▲ +$12,403 (+5.26%) ce mois</div>
+          </div>
+          <div class="port-allocation">
+            <canvas id="allocationChart" width="260" height="260"></canvas>
+            <div class="allocation-legend" id="allocLegend"></div>
+          </div>
+        </div>
+
+        <div class="portfolio-positions">
+          <div class="pos-header">
+            <span>Position</span>
+            <span>Prix d'entrée</span>
+            <span>Prix actuel</span>
+            <span>P&L</span>
+            <span>Risque</span>
+          </div>
+          <div class="pos-list" id="positionsList">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <div class="risk-panel">
+          <h3 class="risk-title">Métriques de Risque</h3>
+          <div class="risk-gauge-container">
+            <canvas id="riskGauge" width="200" height="120"></canvas>
+            <div class="gauge-label">Risque Global: <span class="risk-level medium">Modéré</span></div>
+          </div>
+          <div class="risk-metrics">
+            <div class="rm-row">
+              <span class="rm-label">Value at Risk (95%)</span>
+              <span class="rm-val">$3,240</span>
+            </div>
+            <div class="rm-row">
+              <span class="rm-label">Beta du portefeuille</span>
+              <span class="rm-val">1.24</span>
+            </div>
+            <div class="rm-row">
+              <span class="rm-label">Corrélation moy.</span>
+              <span class="rm-val">0.34</span>
+            </div>
+            <div class="rm-row">
+              <span class="rm-label">Exposition nette</span>
+              <span class="rm-val">67%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ALGO TRADING ===================== -->
+  <section class="section dark-section" id="algo">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-badge">🤖 Algo Trading</div>
+        <h2 class="section-title">Bots de trading <span class="gradient-text">autonomes</span></h2>
+        <p class="section-subtitle">Déployez des algorithmes sophistiqués qui tradent 24/7 avec une discipline de fer.</p>
+      </div>
+
+      <div class="algo-grid">
+        <div class="algo-card">
+          <div class="algo-card-header">
+            <div class="algo-status running"><span class="pulse-dot"></span>Actif</div>
+            <div class="algo-pnl positive">+$4,821</div>
+          </div>
+          <div class="algo-icon">🚀</div>
+          <h3 class="algo-name">MomentumBreaker Pro</h3>
+          <p class="algo-desc">Stratégie basée sur la cassure de momentum avec filtre de volume et confirmation multi-timeframe.</p>
+          <div class="algo-stats-grid">
+            <div class="asg-item"><span class="asg-label">Win Rate</span><span class="asg-value green">89%</span></div>
+            <div class="asg-item"><span class="asg-label">Trades/jour</span><span class="asg-value">12</span></div>
+            <div class="asg-item"><span class="asg-label">Drawdown</span><span class="asg-value red">-2.1%</span></div>
+            <div class="asg-item"><span class="asg-label">Depuis</span><span class="asg-value">87j</span></div>
+          </div>
+          <div class="algo-progress">
+            <span>Objectif mensuel</span>
+            <div class="ap-bar"><div class="ap-fill" style="width:73%"></div></div>
+            <span>73%</span>
+          </div>
+          <button class="btn-algo">Configurer</button>
+        </div>
+
+        <div class="algo-card">
+          <div class="algo-card-header">
+            <div class="algo-status running"><span class="pulse-dot"></span>Actif</div>
+            <div class="algo-pnl positive">+$2,103</div>
+          </div>
+          <div class="algo-icon">🌊</div>
+          <h3 class="algo-name">Mean Reversion AI</h3>
+          <p class="algo-desc">Intelligence artificielle qui détecte les déviations statistiques et exploite le retour à la moyenne.</p>
+          <div class="algo-stats-grid">
+            <div class="asg-item"><span class="asg-label">Win Rate</span><span class="asg-value green">82%</span></div>
+            <div class="asg-item"><span class="asg-label">Trades/jour</span><span class="asg-value">28</span></div>
+            <div class="asg-item"><span class="asg-label">Drawdown</span><span class="asg-value red">-3.4%</span></div>
+            <div class="asg-item"><span class="asg-label">Depuis</span><span class="asg-value">142j</span></div>
+          </div>
+          <div class="algo-progress">
+            <span>Objectif mensuel</span>
+            <div class="ap-bar"><div class="ap-fill" style="width:58%"></div></div>
+            <span>58%</span>
+          </div>
+          <button class="btn-algo">Configurer</button>
+        </div>
+
+        <div class="algo-card">
+          <div class="algo-card-header">
+            <div class="algo-status paused"><span class="pulse-dot yellow"></span>Pause</div>
+            <div class="algo-pnl positive">+$890</div>
+          </div>
+          <div class="algo-icon">⚡</div>
+          <h3 class="algo-name">ScalpMaster HFT</h3>
+          <p class="algo-desc">Scalping haute fréquence sur les spreads bid/ask, optimisé pour les marchés à forte liquidité.</p>
+          <div class="algo-stats-grid">
+            <div class="asg-item"><span class="asg-label">Win Rate</span><span class="asg-value green">76%</span></div>
+            <div class="asg-item"><span class="asg-label">Trades/jour</span><span class="asg-value">340</span></div>
+            <div class="asg-item"><span class="asg-label">Drawdown</span><span class="asg-value red">-1.2%</span></div>
+            <div class="asg-item"><span class="asg-label">Depuis</span><span class="asg-value">23j</span></div>
+          </div>
+          <div class="algo-progress">
+            <span>Objectif mensuel</span>
+            <div class="ap-bar"><div class="ap-fill" style="width:31%" style="background:#f59e0b"></div></div>
+            <span>31%</span>
+          </div>
+          <button class="btn-algo">Activer</button>
+        </div>
+
+        <div class="algo-card new-algo">
+          <div class="new-algo-icon">+</div>
+          <h3 class="algo-name">Créer un algorithme</h3>
+          <p class="algo-desc">Backtestez et déployez votre propre stratégie de trading avec notre constructeur visuel.</p>
+          <button class="btn-algo" style="margin-top: auto;">Lancer le constructeur</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ACADEMY ===================== -->
+  <section class="section" id="academy">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-badge">🎓 Académie AlphaTrader</div>
+        <h2 class="section-title">Formations <span class="gradient-text">d'élite</span></h2>
+        <p class="section-subtitle">De trader débutant à expert en algorithmique — notre curriculum complet couvre chaque niveau.</p>
+      </div>
+
+      <div class="academy-grid">
+        <div class="academy-card featured">
+          <div class="ac-badge featured-badge">⭐ POPULAIRE</div>
+          <div class="ac-level">Intermédiaire → Expert</div>
+          <h3 class="ac-title">Masterclass Analyse Technique</h3>
+          <p class="ac-desc">Maîtrisez les patterns chartistes, les indicateurs avancés, et développez un edge durable sur les marchés.</p>
+          <ul class="ac-features">
+            <li>✓ 47 modules vidéo HD</li>
+            <li>✓ Accès Discord premium</li>
+            <li>✓ Sessions live hebdomadaires</li>
+            <li>✓ Signaux pendant 3 mois</li>
+          </ul>
+          <div class="ac-footer">
+            <span class="ac-price">€297</span>
+            <button class="btn-academy">S'inscrire</button>
+          </div>
+        </div>
+
+        <div class="academy-card">
+          <div class="ac-level">Débutant</div>
+          <h3 class="ac-title">Fondamentaux du Trading</h3>
+          <p class="ac-desc">Les bases solides pour comprendre les marchés, gérer son risque et placer ses premiers trades.</p>
+          <ul class="ac-features">
+            <li>✓ 18 modules vidéo</li>
+            <li>✓ Compte demo inclus</li>
+            <li>✓ Quiz et certifications</li>
+          </ul>
+          <div class="ac-footer">
+            <span class="ac-price">Gratuit</span>
+            <button class="btn-academy secondary">Commencer</button>
+          </div>
+        </div>
+
+        <div class="academy-card">
+          <div class="ac-level">Expert</div>
+          <h3 class="ac-title">Algo Trading Python</h3>
+          <p class="ac-desc">Codez vos propres stratégies, backtestez sur 20 ans de données et déployez sur les marchés réels.</p>
+          <ul class="ac-features">
+            <li>✓ 63 modules + projets</li>
+            <li>✓ Accès API historique</li>
+            <li>✓ Mentorat individuel</li>
+          </ul>
+          <div class="ac-footer">
+            <span class="ac-price">€497</span>
+            <button class="btn-academy">S'inscrire</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 40" fill="none"><path d="M5 30 L13 18 L20 24 L28 10 L35 16" stroke="url(#footerLogoGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="footerLogoGrad" x1="5" y1="30" x2="35" y2="10" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#00ff9d"/></linearGradient></defs></svg>
+            </div>
+            <span class="logo-text">Alpha<span class="logo-accent">Trader</span></span>
+          </div>
+          <p class="footer-tagline">La plateforme des traders qui gagnent.<br/>Intelligence artificielle · Temps réel · Résultats.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-btn" aria-label="Discord">🎮</a>
+            <a href="#" class="social-btn" aria-label="Telegram">✈️</a>
+            <a href="#" class="social-btn" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+        <div class="footer-links-grid">
+          <div class="footer-col">
+            <h4>Plateforme</h4>
+            <ul>
+              <li><a href="#markets">Marchés</a></li>
+              <li><a href="#signals">Signaux</a></li>
+              <li><a href="#portfolio">Portefeuille</a></li>
+              <li><a href="#algo">Algo Trading</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Formation</h4>
+            <ul>
+              <li><a href="#academy">Masterclass</a></li>
+              <li><a href="#academy">Python Trading</a></li>
+              <li><a href="#academy">Débutants</a></li>
+              <li><a href="#">Webinaires</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Légal</h4>
+            <ul>
+              <li><a href="#">Mentions légales</a></li>
+              <li><a href="#">Politique de confidentialité</a></li>
+              <li><a href="#">CGU</a></li>
+              <li><a href="#">Risques & avertissements</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">⚠️ Le trading comporte des risques de perte en capital. Les performances passées ne garantissent pas les résultats futurs. AlphaTrader ne fournit pas de conseils en investissement au sens réglementaire.</p>
+        <p class="footer-copy">© 2026 AlphaTrader. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal de connexion -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-logo">
+        <svg viewBox="0 0 40 40" fill="none" width="40" height="40"><path d="M5 30 L13 18 L20 24 L28 10 L35 16" stroke="url(#ml)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="ml" x1="5" y1="30" x2="35" y2="10" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#00ff9d"/></linearGradient></defs></svg>
+        <span>AlphaTrader</span>
+      </div>
+      <h2 class="modal-title">Bienvenue 👋</h2>
+      <p class="modal-subtitle">Connectez-vous à votre compte</p>
+      <div class="modal-form">
+        <div class="form-group">
+          <label for="emailInput">Email</label>
+          <input type="email" id="emailInput" placeholder="vous@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="pwdInput">Mot de passe</label>
+          <input type="password" id="pwdInput" placeholder="••••••••" />
+        </div>
+        <button class="btn-modal-submit" id="loginSubmit">Se connecter</button>
+        <p class="modal-signup">Pas encore de compte ? <a href="#">Créer un compte gratuit →</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
